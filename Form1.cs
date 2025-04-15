@@ -16,5 +16,10 @@ namespace Mass_Fill_PDF
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
