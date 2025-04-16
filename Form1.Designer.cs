@@ -30,11 +30,14 @@
         {
             this.InformationToFill_dataGridView = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.rowsToGenerate_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.selectPDF_button = new System.Windows.Forms.Button();
+            this.generateRows_button = new System.Windows.Forms.Button();
+            this.clearTable_button = new System.Windows.Forms.Button();
+            this.fillPDF_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.InformationToFill_dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowsToGenerate_numericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // InformationToFill_dataGridView
@@ -46,61 +49,98 @@
             this.InformationToFill_dataGridView.Location = new System.Drawing.Point(23, 62);
             this.InformationToFill_dataGridView.Name = "InformationToFill_dataGridView";
             this.InformationToFill_dataGridView.RowHeadersVisible = false;
-            this.InformationToFill_dataGridView.Size = new System.Drawing.Size(752, 361);
+            this.InformationToFill_dataGridView.Size = new System.Drawing.Size(752, 375);
             this.InformationToFill_dataGridView.TabIndex = 0;
             this.InformationToFill_dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.InformationToFill_dataGridView_CellContentClick);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 9);
+            this.label1.Location = new System.Drawing.Point(20, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 13);
+            this.label1.Size = new System.Drawing.Size(117, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Select the Document(s) to Fill";
+            this.label1.Text = "Select the PDF(s) to Fill";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // numericUpDown1
+            // rowsToGenerate_numericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(178, 35);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown1.TabIndex = 4;
+            this.rowsToGenerate_numericUpDown.Location = new System.Drawing.Point(157, 35);
+            this.rowsToGenerate_numericUpDown.Name = "rowsToGenerate_numericUpDown";
+            this.rowsToGenerate_numericUpDown.Size = new System.Drawing.Size(37, 20);
+            this.rowsToGenerate_numericUpDown.TabIndex = 4;
+            this.rowsToGenerate_numericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.rowsToGenerate_numericUpDown.ValueChanged += new System.EventHandler(this.rowsToGenerate_numericUpDown_ValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(175, 9);
+            this.label2.Location = new System.Drawing.Point(154, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(139, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "How many rows to generate";
             // 
-            // button1
+            // selectPDF_button
             // 
-            this.button1.Location = new System.Drawing.Point(27, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 30);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Select PDFs";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.selectPDF_button.Location = new System.Drawing.Point(23, 28);
+            this.selectPDF_button.Name = "selectPDF_button";
+            this.selectPDF_button.Size = new System.Drawing.Size(88, 30);
+            this.selectPDF_button.TabIndex = 7;
+            this.selectPDF_button.Text = "Select PDFs";
+            this.selectPDF_button.UseVisualStyleBackColor = true;
+            this.selectPDF_button.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // generateRows_button
+            // 
+            this.generateRows_button.Location = new System.Drawing.Point(625, 12);
+            this.generateRows_button.Name = "generateRows_button";
+            this.generateRows_button.Size = new System.Drawing.Size(150, 43);
+            this.generateRows_button.TabIndex = 8;
+            this.generateRows_button.Text = "Generate Rows for Selected PDF(s)";
+            this.generateRows_button.UseVisualStyleBackColor = true;
+            this.generateRows_button.Click += new System.EventHandler(this.generateRows_button_Click);
+            // 
+            // clearTable_button
+            // 
+            this.clearTable_button.Location = new System.Drawing.Point(23, 449);
+            this.clearTable_button.Name = "clearTable_button";
+            this.clearTable_button.Size = new System.Drawing.Size(75, 23);
+            this.clearTable_button.TabIndex = 9;
+            this.clearTable_button.Text = "Clear Table";
+            this.clearTable_button.UseVisualStyleBackColor = true;
+            // 
+            // fillPDF_button
+            // 
+            this.fillPDF_button.Location = new System.Drawing.Point(700, 449);
+            this.fillPDF_button.Name = "fillPDF_button";
+            this.fillPDF_button.Size = new System.Drawing.Size(75, 23);
+            this.fillPDF_button.TabIndex = 10;
+            this.fillPDF_button.Text = "Fill PDF(s)";
+            this.fillPDF_button.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(800, 481);
+            this.Controls.Add(this.fillPDF_button);
+            this.Controls.Add(this.clearTable_button);
+            this.Controls.Add(this.generateRows_button);
+            this.Controls.Add(this.selectPDF_button);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.rowsToGenerate_numericUpDown);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.InformationToFill_dataGridView);
             this.Name = "Form1";
             this.Text = "Mass Fill PDF";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.InformationToFill_dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowsToGenerate_numericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,9 +150,12 @@
 
         private System.Windows.Forms.DataGridView InformationToFill_dataGridView;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown rowsToGenerate_numericUpDown;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button selectPDF_button;
+        private System.Windows.Forms.Button generateRows_button;
+        private System.Windows.Forms.Button clearTable_button;
+        private System.Windows.Forms.Button fillPDF_button;
     }
 }
 
