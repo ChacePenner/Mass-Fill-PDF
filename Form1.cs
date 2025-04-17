@@ -69,10 +69,6 @@ namespace Mass_Fill_PDF
 
         private void generateRows_button_Click(object sender, EventArgs e)
         {
-            //C:\MassFillPDF\Mass Fill PDF\PDF Templates\ELServicesWaiverFormEnglish.pdf
-            //Replace later with the file path(s) from the Select PDF(s) button
-            //If no PDF is selected, show an error message to the user
-            
             if (selectedFiles == null || selectedFiles.Length == 0)
             {
                 MessageBox.Show("No PDF selected. Please select one or more first.");
@@ -115,7 +111,6 @@ namespace Mass_Fill_PDF
                 
                 InformationToFill_dataGridView.Rows.Add(rowsToGenerate);
             }
-
         }
 
         private void rowsToGenerate_numericUpDown_ValueChanged(object sender, EventArgs e)
@@ -136,6 +131,30 @@ namespace Mass_Fill_PDF
                 InformationToFill_dataGridView.Columns.Clear();
                 InformationToFill_dataGridView.Rows.Clear();
             }
+        }
+
+        private Dictionary<string, PdfName> GetFormFieldTypes(string filePath)
+            //Retrieves the form field types (check box, text, radio button, etc.)
+        {
+            var fieldTypes = new Dictionary<string, PdfName>();
+
+            using (var reader = new PdfReader(filePath))
+            using (var pdfDoc = new PdfDocument(reader))
+            {
+                PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
+                if (form == null || form.GetAllFormFields().Count == 0)
+                {
+                    return fieldTypes;
+                }
+
+                foreach (var field in form.GetAllFormFields())
+                {
+                    PdfName type = field.Value.GetFormType();
+                    fieldTypes.Add(field.Key, type);
+                }
+            }
+
+            return fieldTypes;
         }
     }
 }
