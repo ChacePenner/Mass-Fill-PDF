@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace Mass_Fill_PDF
     {
         private string[] selectedFiles;
         private int rowsToGenerate = 1;
+        private Dictionary<string, string> pdfDefaultFieldValues = new Dictionary<string, string>();
         public Form1()
         {
             InitializeComponent();
@@ -141,7 +143,27 @@ namespace Mass_Fill_PDF
                     }
                 }
                 
-                InformationToFill_dataGridView.Rows.Add(rowsToGenerate);
+                pdfDefaultFieldValues = GetDefaultFieldValues(filePath);
+
+                for (int i = 0; i < rowsToGenerate; i++)
+                {
+                    int rowIndex = InformationToFill_dataGridView.Rows.Add();
+                    foreach (var field in fields)
+                    {
+                        string key = field.Key;
+                        if (pdfDefaultFieldValues.TryGetValue(key, out string defaultValue))
+                        {
+                            if (InformationToFill_dataGridView.Columns[key] is DataGridViewCheckBoxColumn)
+                            {
+                                InformationToFill_dataGridView.Rows[rowIndex].Cells[key].Value = ParseCheckboxValue(defaultValue);
+                            }
+                            else
+                            {
+                                InformationToFill_dataGridView.Rows[rowIndex].Cells[key].Value = defaultValue;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -152,14 +174,27 @@ namespace Mass_Fill_PDF
 
         private void addRow_button_Click(object sender, EventArgs e)
         {
-            if (InformationToFill_dataGridView.Rows.Count > 0)
-            {
-                InformationToFill_dataGridView.Rows.Add(1);
-            }
-            else
+            if (InformationToFill_dataGridView.Rows.Count == 0)
             {
                 MessageBox.Show("Additional rows may only be added after first initializing a PDF.");
                 return;
+            }
+
+            int newRowIndex = InformationToFill_dataGridView.Rows.Add();
+            foreach (DataGridViewColumn column in InformationToFill_dataGridView.Columns)
+            {
+                if (pdfDefaultFieldValues.TryGetValue(column.Name, out string defaultValue))
+                { 
+                    if (column is DataGridViewCheckBoxColumn)
+                    {
+                        InformationToFill_dataGridView.Rows[newRowIndex].Cells[column.Index].Value = ParseCheckboxValue(defaultValue);
+                    }
+                    else
+                    {
+                        InformationToFill_dataGridView.Rows[newRowIndex].Cells[column.Index].Value = defaultValue; 
+                    }
+                        
+                }
             }
         }
 
@@ -195,6 +230,36 @@ namespace Mass_Fill_PDF
             }
 
             return fieldTypes;
+        }
+
+        private Dictionary<string, string> GetDefaultFieldValues(string filePath)
+        {
+            var fieldDefaults = new Dictionary<string, string>();
+
+            using (var reader = new PdfReader(filePath))
+            using (var pdfDoc = new PdfDocument(reader))
+            {
+                PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
+                if (form == null || form.GetAllFormFields().Count == 0)
+                {
+                    return fieldDefaults;
+                }
+
+                foreach (var field in form.GetAllFormFields())
+                {
+                    string value = field.Value.GetValueAsString();
+                    fieldDefaults[field.Key] = value;
+
+                    
+                }
+            }
+
+            return fieldDefaults;
+        }
+
+        private bool ParseCheckboxValue(string value)
+        {
+            return value == "Yes" || value == "On" || value == "1" || value == "true";
         }
     }
 }
