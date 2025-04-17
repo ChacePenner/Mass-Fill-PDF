@@ -101,12 +101,44 @@ namespace Mass_Fill_PDF
                     return;
                 }
 
+                Dictionary<string, PdfName> fieldTypes = GetFormFieldTypes(filePath);
+
                 InformationToFill_dataGridView.Columns.Clear();
                 InformationToFill_dataGridView.Rows.Clear();
 
                 foreach (var field in fields)
                 {
-                    InformationToFill_dataGridView.Columns.Add(field.Key, field.Key);
+                    PdfName fieldType = fieldTypes.ContainsKey(field.Key) ? fieldTypes[field.Key] : null;
+
+                    if (PdfName.Btn.Equals(fieldType))
+                    {
+                        InformationToFill_dataGridView.Columns.Add(new DataGridViewCheckBoxColumn
+                        {
+                            Name = field.Key,
+                            HeaderText = field.Key
+                        });
+                    }
+                    else if (PdfName.Ch.Equals(fieldType))
+                    {
+                        var dropdownBox = new DataGridViewComboBoxColumn
+                        {
+                            Name = field.Key,
+                            HeaderText = field.Key
+                        };
+
+                        string[] dropdownOptions = field.Value.GetAppearanceStates();
+                        dropdownBox.Items.AddRange(dropdownOptions);
+
+                        InformationToFill_dataGridView.Columns.Add(dropdownBox);
+                    }
+                    else if (PdfName.Tx.Equals(fieldType))
+                    {
+                        InformationToFill_dataGridView.Columns.Add(field.Key, field.Key);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Field '{field.Key}' has unsupported type '{fieldType?.ToString() ?? "Unknown"}'. It must be handwritten.");
+                    }
                 }
                 
                 InformationToFill_dataGridView.Rows.Add(rowsToGenerate);
@@ -120,7 +152,15 @@ namespace Mass_Fill_PDF
 
         private void addRow_button_Click(object sender, EventArgs e)
         {
-            InformationToFill_dataGridView.Rows.Add(1);
+            if (InformationToFill_dataGridView.Rows.Count > 0)
+            {
+                InformationToFill_dataGridView.Rows.Add(1);
+            }
+            else
+            {
+                MessageBox.Show("Additional rows may only be added after first initializing a PDF.");
+                return;
+            }
         }
 
         private void clearTable_button_Click(object sender, EventArgs e)

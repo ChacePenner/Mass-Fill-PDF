@@ -100,6 +100,7 @@
             // 
             // generateRows_button
             // 
+            this.generateRows_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.generateRows_button.Location = new System.Drawing.Point(625, 12);
             this.generateRows_button.Name = "generateRows_button";
             this.generateRows_button.Size = new System.Drawing.Size(150, 43);
@@ -110,6 +111,7 @@
             // 
             // clearTable_button
             // 
+            this.clearTable_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.clearTable_button.Location = new System.Drawing.Point(619, 449);
             this.clearTable_button.Name = "clearTable_button";
             this.clearTable_button.Size = new System.Drawing.Size(75, 23);
@@ -120,6 +122,7 @@
             // 
             // fillPDF_button
             // 
+            this.fillPDF_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.fillPDF_button.Location = new System.Drawing.Point(700, 449);
             this.fillPDF_button.Name = "fillPDF_button";
             this.fillPDF_button.Size = new System.Drawing.Size(75, 23);
@@ -129,6 +132,7 @@
             // 
             // addRow_button
             // 
+            this.addRow_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addRow_button.Location = new System.Drawing.Point(23, 449);
             this.addRow_button.Name = "addRow_button";
             this.addRow_button.Size = new System.Drawing.Size(75, 23);
