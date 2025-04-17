@@ -36,12 +36,15 @@
             this.generateRows_button = new System.Windows.Forms.Button();
             this.clearTable_button = new System.Windows.Forms.Button();
             this.fillPDF_button = new System.Windows.Forms.Button();
+            this.addRow_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.InformationToFill_dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowsToGenerate_numericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // InformationToFill_dataGridView
             // 
+            this.InformationToFill_dataGridView.AllowUserToAddRows = false;
+            this.InformationToFill_dataGridView.AllowUserToDeleteRows = false;
             this.InformationToFill_dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -107,12 +110,13 @@
             // 
             // clearTable_button
             // 
-            this.clearTable_button.Location = new System.Drawing.Point(23, 449);
+            this.clearTable_button.Location = new System.Drawing.Point(619, 449);
             this.clearTable_button.Name = "clearTable_button";
             this.clearTable_button.Size = new System.Drawing.Size(75, 23);
             this.clearTable_button.TabIndex = 9;
             this.clearTable_button.Text = "Clear Table";
             this.clearTable_button.UseVisualStyleBackColor = true;
+            this.clearTable_button.Click += new System.EventHandler(this.clearTable_button_Click);
             // 
             // fillPDF_button
             // 
@@ -123,11 +127,22 @@
             this.fillPDF_button.Text = "Fill PDF(s)";
             this.fillPDF_button.UseVisualStyleBackColor = true;
             // 
+            // addRow_button
+            // 
+            this.addRow_button.Location = new System.Drawing.Point(23, 449);
+            this.addRow_button.Name = "addRow_button";
+            this.addRow_button.Size = new System.Drawing.Size(75, 23);
+            this.addRow_button.TabIndex = 11;
+            this.addRow_button.Text = "Add Row";
+            this.addRow_button.UseVisualStyleBackColor = true;
+            this.addRow_button.Click += new System.EventHandler(this.addRow_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 481);
+            this.Controls.Add(this.addRow_button);
             this.Controls.Add(this.fillPDF_button);
             this.Controls.Add(this.clearTable_button);
             this.Controls.Add(this.generateRows_button);
@@ -156,6 +171,7 @@
         private System.Windows.Forms.Button generateRows_button;
         private System.Windows.Forms.Button clearTable_button;
         private System.Windows.Forms.Button fillPDF_button;
+        private System.Windows.Forms.Button addRow_button;
     }
 }
 

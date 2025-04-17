@@ -78,6 +78,11 @@ namespace Mass_Fill_PDF
                 MessageBox.Show("No PDF selected. Please select one or more first.");
                 return;
             }
+            if (rowsToGenerate <= 0)
+            {
+                MessageBox.Show("Rows to generate must be greater than 0.");
+                return;
+            }
 
             string filePath = selectedFiles[0];
 
@@ -85,7 +90,20 @@ namespace Mass_Fill_PDF
             using (PdfDocument document = new PdfDocument(reader))
             {
                 PdfAcroForm acroForm = PdfAcroForm.GetAcroForm(document, false);
+
+                if (acroForm == null)
+                {
+                    MessageBox.Show("Selected PDF(s) do not contain form fields.");
+                    return;
+                }
+
                 IDictionary<string, PdfFormField> fields = acroForm.GetAllFormFields();
+
+                if (fields == null || fields.Count == 0)
+                {
+                    MessageBox.Show("Selected PDF(s) do not contain form fields.");
+                    return;
+                }
 
                 InformationToFill_dataGridView.Columns.Clear();
                 InformationToFill_dataGridView.Rows.Clear();
@@ -94,8 +112,8 @@ namespace Mass_Fill_PDF
                 {
                     InformationToFill_dataGridView.Columns.Add(field.Key, field.Key);
                 }
-
-                InformationToFill_dataGridView.Rows.Add(rowsToGenerate - 1);
+                
+                InformationToFill_dataGridView.Rows.Add(rowsToGenerate);
             }
 
         }
@@ -103,6 +121,21 @@ namespace Mass_Fill_PDF
         private void rowsToGenerate_numericUpDown_ValueChanged(object sender, EventArgs e)
         {
             rowsToGenerate = Convert.ToInt32(rowsToGenerate_numericUpDown.Value);
+        }
+
+        private void addRow_button_Click(object sender, EventArgs e)
+        {
+            InformationToFill_dataGridView.Rows.Add(1);
+        }
+
+        private void clearTable_button_Click(object sender, EventArgs e)
+        {
+            DialogResult clearDialog = MessageBox.Show("Are you sure you want to clear all data in the grid? This cannot be undone.", "Clear All Data", MessageBoxButtons.YesNo);
+            if (clearDialog == DialogResult.Yes)
+            {
+                InformationToFill_dataGridView.Columns.Clear();
+                InformationToFill_dataGridView.Rows.Clear();
+            }
         }
     }
 }
