@@ -247,10 +247,20 @@ namespace Mass_Fill_PDF
 
                 foreach (var field in form.GetAllFormFields())
                 {
-                    string value = field.Value.GetValueAsString();
-                    fieldDefaults[field.Key] = value;
+                    string key = field.Key;
+                    PdfFormField formField = field.Value;
+                    PdfName type = formField.GetFormType();
 
-                    
+                    if (PdfName.Btn.Equals(type))
+                    {
+                        PdfDictionary dict = formField.GetPdfObject();
+                        PdfName value = dict.GetAsName(PdfName.V);
+                        fieldDefaults[key] = value != null ? value.ToString() : "Off";
+                    }
+                    else
+                    {
+                        fieldDefaults[key] = formField.GetValueAsString();
+                    }
                 }
             }
 
@@ -259,7 +269,18 @@ namespace Mass_Fill_PDF
 
         private bool ParseCheckboxValue(string value)
         {
-            return value == "Yes" || value == "On" || value == "1" || value == "true";
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            string normalized = value.TrimStart('/').ToLower();
+            return normalized.StartsWith("yes") || normalized == "1";
+        }
+
+        private void fillPDF_button_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

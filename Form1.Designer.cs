@@ -129,6 +129,7 @@
             this.fillPDF_button.TabIndex = 10;
             this.fillPDF_button.Text = "Fill PDF(s)";
             this.fillPDF_button.UseVisualStyleBackColor = true;
+            this.fillPDF_button.Click += new System.EventHandler(this.fillPDF_button_Click);
             // 
             // addRow_button
             // 
