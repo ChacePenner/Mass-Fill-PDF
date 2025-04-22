@@ -170,7 +170,10 @@ namespace Mass_Fill_PDF
             namingComboBox.Items.Add("Default");
             foreach (DataGridViewColumn column in InformationToFill_dataGridView.Columns)
             {
-                namingComboBox.Items.Add(column.Name);
+                if (column is DataGridViewTextBoxColumn || column is DataGridViewComboBoxColumn)
+                { 
+                    namingComboBox.Items.Add(column.Name); 
+                }
                 namingComboBox.SelectedIndex = 0;
             }
         }
