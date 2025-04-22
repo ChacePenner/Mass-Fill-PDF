@@ -15,6 +15,7 @@ using iText.Forms;
 using iText.Forms.Fields;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Annot;
+using iText.Kernel.Exceptions;
 
 namespace Mass_Fill_PDF
 {
@@ -89,7 +90,15 @@ namespace Mass_Fill_PDF
             foreach (string path in selectedFiles)
             {
                 var types = GetFormFieldTypes(path);
+                if (types == null)
+                {
+                    return;
+                }
                 var defaults = GetDefaultFieldValues(path);
+                if (defaults == null)
+                {
+                    return;
+                }
 
                 foreach (var kv in types)
                 {
@@ -124,7 +133,6 @@ namespace Mass_Fill_PDF
                 {
                     var combo = new DataGridViewComboBoxColumn { Name = name, HeaderText = name };
                     combo.Items.AddRange(PdfAcroForm.GetAcroForm(new PdfDocument(new PdfReader(selectedFiles[0])), false).GetField(name).GetAppearanceStates());
-//Remove selectedFiles[0] here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     InformationToFill_dataGridView.Columns.Add(combo);
                 }
                 else
@@ -138,6 +146,11 @@ namespace Mass_Fill_PDF
 
             for (int i = 0; i < rowsToGenerate; i++)
             {
+                if (InformationToFill_dataGridView.Columns.Count <= 0)
+                {
+                    MessageBox.Show("Please select a PDF with form fields.");
+                    return;
+                }
                 int index = InformationToFill_dataGridView.Rows.Add();
                 foreach (DataGridViewColumn column in InformationToFill_dataGridView.Columns)
                 {
@@ -212,20 +225,28 @@ namespace Mass_Fill_PDF
         {
             var fieldTypes = new Dictionary<string, PdfName>();
 
-            using (var reader = new PdfReader(filePath))
-            using (var pdfDoc = new PdfDocument(reader))
+            try
             {
-                PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
-                if (form == null || form.GetAllFormFields().Count == 0)
+                using (var reader = new PdfReader(filePath))
+                using (var pdfDoc = new PdfDocument(reader))
                 {
-                    return fieldTypes;
-                }
+                    PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
+                    if (form == null || form.GetAllFormFields().Count == 0)
+                    {
+                        return fieldTypes;
+                    }
 
-                foreach (var field in form.GetAllFormFields())
-                {
-                    PdfName type = field.Value.GetFormType();
-                    fieldTypes.Add(field.Key, type);
+                    foreach (var field in form.GetAllFormFields())
+                    {
+                        PdfName type = field.Value.GetFormType();
+                        fieldTypes.Add(field.Key, type);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error with selected PDF at:\n{Path.GetFileName(filePath)}\n\n{ex.Message}", "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
 
             return fieldTypes;
@@ -235,32 +256,40 @@ namespace Mass_Fill_PDF
         {
             var fieldDefaults = new Dictionary<string, string>();
 
-            using (var reader = new PdfReader(filePath))
-            using (var pdfDoc = new PdfDocument(reader))
+            try
             {
-                PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
-                if (form == null || form.GetAllFormFields().Count == 0)
+                using (var reader = new PdfReader(filePath))
+                using (var pdfDoc = new PdfDocument(reader))
                 {
-                    return fieldDefaults;
-                }
-
-                foreach (var field in form.GetAllFormFields())
-                {
-                    string key = field.Key;
-                    PdfFormField formField = field.Value;
-                    PdfName type = formField.GetFormType();
-
-                    if (PdfName.Btn.Equals(type))
+                    PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, false);
+                    if (form == null || form.GetAllFormFields().Count == 0)
                     {
-                        PdfDictionary dict = formField.GetPdfObject();
-                        PdfName value = dict.GetAsName(PdfName.V);
-                        fieldDefaults[key] = value != null ? value.ToString() : "Off";
+                        return fieldDefaults;
                     }
-                    else
+
+                    foreach (var field in form.GetAllFormFields())
                     {
-                        fieldDefaults[key] = formField.GetValueAsString();
+                        string key = field.Key;
+                        PdfFormField formField = field.Value;
+                        PdfName type = formField.GetFormType();
+
+                        if (PdfName.Btn.Equals(type))
+                        {
+                            PdfDictionary dict = formField.GetPdfObject();
+                            PdfName value = dict.GetAsName(PdfName.V);
+                            fieldDefaults[key] = value != null ? value.ToString() : "Off";
+                        }
+                        else
+                        {
+                            fieldDefaults[key] = formField.GetValueAsString();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to read PDF form fields:\n{ex.Message}", "PDF Load Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
             }
             return fieldDefaults;
         }
