@@ -37,6 +37,8 @@
             this.clearTable_button = new System.Windows.Forms.Button();
             this.fillPDF_button = new System.Windows.Forms.Button();
             this.addRow_button = new System.Windows.Forms.Button();
+            this.namingComboBox = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.InformationToFill_dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowsToGenerate_numericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -142,11 +144,31 @@
             this.addRow_button.UseVisualStyleBackColor = true;
             this.addRow_button.Click += new System.EventHandler(this.addRow_button_Click);
             // 
+            // namingComboBox
+            // 
+            this.namingComboBox.FormattingEnabled = true;
+            this.namingComboBox.Location = new System.Drawing.Point(313, 34);
+            this.namingComboBox.Name = "namingComboBox";
+            this.namingComboBox.Size = new System.Drawing.Size(208, 21);
+            this.namingComboBox.TabIndex = 12;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(310, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Output file name from:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 481);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.namingComboBox);
             this.Controls.Add(this.addRow_button);
             this.Controls.Add(this.fillPDF_button);
             this.Controls.Add(this.clearTable_button);
@@ -177,6 +199,8 @@
         private System.Windows.Forms.Button clearTable_button;
         private System.Windows.Forms.Button fillPDF_button;
         private System.Windows.Forms.Button addRow_button;
+        private System.Windows.Forms.ComboBox namingComboBox;
+        private System.Windows.Forms.Label label3;
     }
 }
 

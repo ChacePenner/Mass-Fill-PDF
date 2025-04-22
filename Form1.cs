@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Messaging;
@@ -165,6 +166,13 @@ namespace Mass_Fill_PDF
                     }
                 }
             }
+            namingComboBox.Items.Clear();
+            namingComboBox.Items.Add("Default");
+            foreach (DataGridViewColumn column in InformationToFill_dataGridView.Columns)
+            {
+                namingComboBox.Items.Add(column.Name);
+                namingComboBox.SelectedIndex = 0;
+            }
         }
 
         private void rowsToGenerate_numericUpDown_ValueChanged(object sender, EventArgs e)
@@ -279,6 +287,90 @@ namespace Mass_Fill_PDF
         }
 
         private void fillPDF_button_Click(object sender, EventArgs e)
+        {
+            //Checks that a template has been selected and rows have been generated
+            if (selectedFiles == null || selectedFiles.Length == 0)
+            {
+                MessageBox.Show("No PDF selected.");
+                return;
+            }
+            if (InformationToFill_dataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("No data to fill. The grid is empty.");
+                return;
+            }
+
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                //Allows the user to select where the PDF(s) will be generated.
+                folderDialog.Description = "Select output folder for filled PDFs.";
+                if (folderDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                string outFolder = folderDialog.SelectedPath;
+
+                string templatePath = selectedFiles[0];
+                string baseName = Path.GetFileNameWithoutExtension(templatePath);
+                string nameSource = namingComboBox.SelectedItem?.ToString() ?? "Default";
+
+                //Creates a new PDF for each row of data.
+                for (int rowIndex = 0; rowIndex < InformationToFill_dataGridView.Rows.Count; rowIndex++)
+                {
+                    var row = InformationToFill_dataGridView.Rows[rowIndex];
+
+                    string fileName;
+                    if (nameSource != "Default" && row.Cells[nameSource].Value is string raw && !string.IsNullOrWhiteSpace(raw))
+                    {
+                        var invalids = Path.GetInvalidFileNameChars();
+                        var safe = new string(raw.Where(ch => !invalids.Contains(ch)).ToArray()).Trim();
+                        if (string.IsNullOrEmpty(safe))
+                        {
+                            safe = (rowIndex + 1).ToString();
+                        }
+                        fileName = $"{baseName}_{safe}.pdf";
+                    }
+                    else
+                    {
+                        fileName = $"{baseName}_{rowIndex + 1}.pdf";
+                    }
+                    string outputPath = Path.Combine(outFolder, fileName);
+
+                    // Opens the template PDF for reading and writing
+                    using (var reader = new PdfReader(templatePath))
+                    using (var writer = new PdfWriter(outputPath))
+                    using (var pdfDoc = new PdfDocument(reader, writer))
+                    {
+                        var form = PdfAcroForm.GetAcroForm(pdfDoc, true);
+
+                        //Fills in each field from the DataGridView
+
+                        foreach (DataGridViewColumn column in InformationToFill_dataGridView.Columns)
+                        {
+                            string fieldName = column.Name;
+                            var cell = row.Cells[column.Index].Value;
+
+                            if (column is DataGridViewCheckBoxColumn)
+                            {
+                                bool isChecked = Convert.ToBoolean(cell);
+
+                                string onValue = form.GetField(fieldName).GetAppearanceStates().FirstOrDefault(s => !s.Equals("Off", StringComparison.OrdinalIgnoreCase)) ?? "Yes";
+                                form.GetField(fieldName).SetValue(isChecked ? onValue : "Off");
+                            }
+                            else
+                            {
+                                string value = cell?.ToString() ?? "";
+                                form.GetField(fieldName).SetValue(value);
+                            }
+                        }
+                    }
+                }
+
+                MessageBox.Show($"{InformationToFill_dataGridView.Rows.Count} PDFs written to:\n{outFolder}");
+            }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
