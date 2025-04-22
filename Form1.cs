@@ -362,7 +362,7 @@ namespace Mass_Fill_PDF
                             }
                             else
                             {
-                                string value = cell?.ToString() ?? "";
+                                string value = cell?.ToString().Trim() ?? "";
                                 form.GetField(fieldName).SetValue(value);
                             }
                         }
