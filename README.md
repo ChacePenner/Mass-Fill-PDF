@@ -30,11 +30,22 @@ This is because the application assumes that any form fields with the same names
 ![image](https://github.com/user-attachments/assets/293d82ca-18bf-4b0d-b32f-b5dff2aca056)
 
 
-![image](https://github.com/user-attachments/assets/be3f2fa9-49e8-4829-ac22-3881e9aac7fb)
+![image](https://github.com/user-attachments/assets/8b3b48e5-fff5-483c-aa92-2d6dfa011a9f)
+
+
 
 In the scenario above, 10 PDfs will be generated in total. One for each student in English and one for each student in Spanish.
 
-![image](https://github.com/user-attachments/assets/97f87e28-2dc1-42c3-b65f-4e185433e3e0)
+![image](https://github.com/user-attachments/assets/83a73905-2235-486c-823b-63bad418bbb4)
+
+
+The following two images show a snippet of what the generated PDFs would look like for Student 1. 
+
+![image](https://github.com/user-attachments/assets/fcb37455-e858-4f7d-ae22-553ab4d33971)
+
+
+
+![image](https://github.com/user-attachments/assets/989c3927-98c0-400e-b561-9774ce234752)
 
 
 
