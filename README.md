@@ -74,9 +74,16 @@ You can upload any pdf and add text fields, textareas, and checkboxes.
 
 ![image](https://github.com/user-attachments/assets/3a56102d-f317-429e-8190-367d9ebfc47f)
 
-
-
 **It is important to note** that the Field name you choose is the column name generated when uploading the PDF, so choose a name that identifies what data to input.
 Also note that if you choose to upload multiple PDFs that require the same data, such as in the English/Spanish example above, you should make sure that each relevant field uses the same name.
 For example, having Student Name be the name of the text field to enter a student's name on the English PDF but using Nombre del estudiante as the name on the Spanish PDf will generate two columns, one for each name.
 Alternatively, if you using Student Name as the name for both PDFs, only one column will be generated but both PDFs will fill their respetive form from the same column, meaning the user does not have to enter each student's name twice.
+
+
+# **PDFs to Test**
+
+If you are interested in testing the program, here are some PDFs will form fields already added.
+By default, the form fields do not contain any data. Experiment with adding data to see how the application pre-fills the fields for you.
+
+[ParentNotificationLetterSpanish.pdf](https://github.com/user-attachments/files/19950122/ParentNotificationLetterSpanish.pdf)
+[ParentNotificationLetterEnglish.pdf](https://github.com/user-attachments/files/19950121/ParentNotificationLetterEnglish.pdf)
