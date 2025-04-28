@@ -1,4 +1,4 @@
-**What is Mass Fill PDF?**
+# **What is Mass Fill PDF?**
 
 ![image](https://github.com/user-attachments/assets/82788b33-6152-4242-98e2-e4b792d89d51)
 
@@ -14,7 +14,7 @@ The user may alternatively choose to have the data from a specific column append
 
 For example, if a column header is labeled "Student Name" and the PDF is named StudentLetter.pdf, the generated PDFs may look something like: StudentLetterJohnJones.pdf, StudentLetterRebeccaBlack.pdf, StudentLetterChacePenner.pdf, StudentLetterTomHolland.pdf, and StudentLetterZendayaColeman.pdf.
 
-**Unique Uses**
+# **Unique Uses**
 
 The main benefit of the application is filling out multiple forms that use the same form fields.
 For example, in Kansas, it is required by law for teachers to send home letters to parents of ESOL students in both English and the parents' native languages.
@@ -50,7 +50,7 @@ The following two images show a snippet of what the generated PDFs would look li
 
 
 
-**Supported Features**
+# **Supported Features**
 
 Any data already entered into a form field before uploading the PDF to the application will be automatically generated when the table is created.
 This can save the user from having to repeatedly enter information that is present across all PDFs. 
@@ -64,7 +64,7 @@ Hover over each button for a tooltip on what it does.
 ![image](https://github.com/user-attachments/assets/51151197-9c37-4996-9dd0-b4d14d90da83)
 
 
-**How do I generate a PDF with form fields?**
+# **How do I generate a PDF with form fields?**
 
 If you do not have Adobe Acrobat, you can use a website such as https://www.sejda.com/pdf-forms
 This is the one used in the testing of this application.
