@@ -68,9 +68,7 @@ Hover over each button for a tooltip on what it does.
 
 If you do not have Adobe Acrobat, you can use a website such as https://www.sejda.com/pdf-forms
 This is the one used in the testing of this application.
-You can upload any pdf and add text fields[ParentNotificationLetterEnglish_Student 2.pdf](https://github.com/user-attachments/files/19949563/ParentNotificationLetterEnglish_Student.2.pdf)
-[ParentNotificationLetterEnglish_Student 1.pdf](https://github.com/user-attachments/files/19949562/ParentNotificationLetterEnglish_Student.1.pdf)
-, textareas, and checkboxes.
+You can upload any pdf and add text fields, textareas, and checkboxes.
 
 ![image](https://github.com/user-attachments/assets/9f276164-34d9-405a-96d3-b4f8cdf3b018)
 
