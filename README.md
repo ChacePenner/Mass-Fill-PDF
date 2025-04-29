@@ -1,4 +1,4 @@
-# **What is Mass Fill PDF?**
+# **About**
 
 ![image](https://github.com/user-attachments/assets/82788b33-6152-4242-98e2-e4b792d89d51)
 
@@ -14,7 +14,7 @@ The user may alternatively choose to have the data from a specific column append
 
 For example, if a column header is labeled "Student Name" and the PDF is named StudentLetter.pdf, the generated PDFs may look something like: StudentLetterJohnJones.pdf, StudentLetterRebeccaBlack.pdf, StudentLetterChacePenner.pdf, StudentLetterTomHolland.pdf, and StudentLetterZendayaColeman.pdf.
 
-# **Unique Uses**
+# **Use Case**
 
 The main benefit of the application is filling out multiple forms that use the same form fields.
 For example, in Kansas, it is required by law for teachers to send home letters to parents of ESOL students in both English and the parents' native languages.
